@@ -1,0 +1,24 @@
+{
+  "TrustedSystemProcesses": [
+    "svchost.exe",
+    "explorer.exe",
+    "lsass.exe",
+    "services.exe",
+    "csrss.exe"
+  ],
+  "TrustedExecutionPaths": [
+    "C:\\Windows\\System32",
+    "C:\\Windows\\SysWOW64",
+    "C:\\Program Files"
+  ],
+  "UntrustedExecutionPaths": [
+    "%USERPROFILE%\\Downloads",
+    "%USERPROFILE%\\AppData\\Local\\Temp",
+    "C:\\Temp"
+  ],
+  "Rules": {
+    "HIDS-P1": { "Enabled": true, "Threshold": 1, "Severity": "High" },
+    "HIDS-N3": { "Enabled": true, "Threshold": 100, "Severity": "Medium" }
+  },
+  "NetworkScanWindowSeconds": 10
+}
