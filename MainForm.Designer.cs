@@ -22,6 +22,7 @@ namespace WinEDR_MVP
             this.btnStop = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.scanProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.panelTop = new System.Windows.Forms.Panel();
             this.labelHeader = new System.Windows.Forms.Label();
 
@@ -33,64 +34,96 @@ namespace WinEDR_MVP
             // 
             // panelTop
             // 
-            this.panelTop.BackColor = System.Drawing.Color.FromArgb(40, 40, 40);
+            this.panelTop.BackColor = System.Drawing.Color.FromArgb(45, 45, 45);
             this.panelTop.Controls.Add(this.labelHeader);
             this.panelTop.Controls.Add(this.btnStart);
             this.panelTop.Controls.Add(this.btnStop);
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelTop.Height = 60;
+            this.panelTop.Height = 70;
+            this.panelTop.Padding = new System.Windows.Forms.Padding(10);
             
             // 
             // labelHeader
             // 
             this.labelHeader.Text = "WinEDR MVP";
             this.labelHeader.ForeColor = System.Drawing.Color.White;
-            this.labelHeader.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
-            this.labelHeader.Location = new System.Drawing.Point(10, 10);
+            this.labelHeader.Font = new System.Drawing.Font("Segoe UI Semibold", 16F);
+            this.labelHeader.Location = new System.Drawing.Point(20, 18);
             this.labelHeader.AutoSize = true;
 
             // 
             // btnStart
             // 
             this.btnStart.Text = "Start Engine";
-            this.btnStart.Location = new System.Drawing.Point(200, 15);
-            this.btnStart.Size = new System.Drawing.Size(100, 30);
+            this.btnStart.Location = new System.Drawing.Point(200, 20);
+            this.btnStart.Size = new System.Drawing.Size(120, 32);
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
-            this.btnStart.BackColor = System.Drawing.Color.ForestGreen;
+            this.btnStart.BackColor = System.Drawing.Color.FromArgb(0, 95, 184);
             this.btnStart.ForeColor = System.Drawing.Color.White;
             this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnStart.FlatAppearance.BorderSize = 0;
+            this.btnStart.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnStart.Font = new System.Drawing.Font("Segoe UI", 10F);
 
             // 
             // btnStop
             // 
             this.btnStop.Text = "Stop Engine";
-            this.btnStop.Location = new System.Drawing.Point(310, 15);
-            this.btnStop.Size = new System.Drawing.Size(100, 30);
+            this.btnStop.Location = new System.Drawing.Point(330, 20);
+            this.btnStop.Size = new System.Drawing.Size(120, 32);
             this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
             this.btnStop.Enabled = false;
-            this.btnStop.BackColor = System.Drawing.Color.Firebrick;
+            this.btnStop.BackColor = System.Drawing.Color.FromArgb(196, 43, 28);
             this.btnStop.ForeColor = System.Drawing.Color.White;
             this.btnStop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnStop.FlatAppearance.BorderSize = 0;
+            this.btnStop.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnStop.Font = new System.Drawing.Font("Segoe UI", 10F);
 
             // 
             // dgvAlerts
             // 
             this.dgvAlerts.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvAlerts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvAlerts.Location = new System.Drawing.Point(0, 60);
-            this.dgvAlerts.Size = new System.Drawing.Size(800, 370);
+            this.dgvAlerts.Location = new System.Drawing.Point(0, 70);
+            this.dgvAlerts.Size = new System.Drawing.Size(800, 360);
             this.dgvAlerts.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvAlerts.ReadOnly = true;
             this.dgvAlerts.RowHeadersVisible = false;
             this.dgvAlerts.AllowUserToAddRows = false;
+            this.dgvAlerts.BackgroundColor = System.Drawing.Color.FromArgb(32, 32, 32);
+            this.dgvAlerts.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgvAlerts.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
+            this.dgvAlerts.GridColor = System.Drawing.Color.FromArgb(60, 60, 60);
+            this.dgvAlerts.EnableHeadersVisualStyles = false;
+            
+            System.Windows.Forms.DataGridViewCellStyle cellStyle = new System.Windows.Forms.DataGridViewCellStyle();
+            cellStyle.BackColor = System.Drawing.Color.FromArgb(32, 32, 32);
+            cellStyle.ForeColor = System.Drawing.Color.White;
+            cellStyle.SelectionBackColor = System.Drawing.Color.FromArgb(0, 95, 184);
+            cellStyle.SelectionForeColor = System.Drawing.Color.White;
+            cellStyle.Padding = new System.Windows.Forms.Padding(5);
+            this.dgvAlerts.DefaultCellStyle = cellStyle;
+            this.dgvAlerts.RowTemplate.Height = 35;
+            
+            System.Windows.Forms.DataGridViewCellStyle headerStyle = new System.Windows.Forms.DataGridViewCellStyle();
+            headerStyle.BackColor = System.Drawing.Color.FromArgb(45, 45, 45);
+            headerStyle.ForeColor = System.Drawing.Color.White;
+            headerStyle.Font = new System.Drawing.Font("Segoe UI Semibold", 10F);
+            headerStyle.SelectionBackColor = System.Drawing.Color.FromArgb(45, 45, 45);
+            headerStyle.Padding = new System.Windows.Forms.Padding(5);
+            this.dgvAlerts.ColumnHeadersDefaultCellStyle = headerStyle;
+            this.dgvAlerts.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
 
             // 
             // statusStrip1
             // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.statusLabel });
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.statusLabel, this.scanProgressBar });
             this.statusStrip1.Location = new System.Drawing.Point(0, 428);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(800, 22);
+            this.statusStrip1.BackColor = System.Drawing.Color.FromArgb(45, 45, 45);
+            this.statusStrip1.ForeColor = System.Drawing.Color.White;
 
             // 
             // statusLabel
@@ -99,9 +132,17 @@ namespace WinEDR_MVP
             this.statusLabel.Text = "Status: Stopped";
 
             // 
+            // scanProgressBar
+            // 
+            this.scanProgressBar.Name = "scanProgressBar";
+            this.scanProgressBar.Size = new System.Drawing.Size(100, 16);
+            this.scanProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+            this.scanProgressBar.Visible = false;
+
+            // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.dgvAlerts);
@@ -109,6 +150,8 @@ namespace WinEDR_MVP
             this.Controls.Add(this.panelTop);
             this.Name = "MainForm";
             this.Text = "WinEDR MVP - Agent Control";
+            this.BackColor = System.Drawing.Color.FromArgb(32, 32, 32);
+            this.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAlerts)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
@@ -123,6 +166,7 @@ namespace WinEDR_MVP
         private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel statusLabel;
+        private System.Windows.Forms.ToolStripProgressBar scanProgressBar;
         private System.Windows.Forms.Panel panelTop;
         private System.Windows.Forms.Label labelHeader;
     }

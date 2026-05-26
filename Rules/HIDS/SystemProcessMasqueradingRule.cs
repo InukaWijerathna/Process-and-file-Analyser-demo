@@ -32,19 +32,26 @@ namespace WinEDR_MVP.Rules.HIDS
                 {
                     string processName = proc.ProcessName.ToLower();
                     // Basic check: if it looks like a system process (fake list for MVP)
-                    if (_config.TrustedSystemProcesses.Contains(proc.ProcessName + ".exe"))
+                    if (_config.TrustedSystemProcesses.Contains(processName + ".exe"))
                     {
                         // Check path
                         string path = proc.MainModule?.FileName;
                         if (string.IsNullOrEmpty(path)) continue;
 
                         bool isLegit = false;
-                        foreach (var trustedPath in _config.TrustedExecutionPaths)
+                        if (processName == "explorer")
                         {
-                            if (path.StartsWith(trustedPath, StringComparison.OrdinalIgnoreCase))
+                            isLegit = path.Equals(@"C:\WINDOWS\explorer.exe", StringComparison.OrdinalIgnoreCase);
+                        }
+                        else
+                        {
+                            foreach (var trustedPath in _config.TrustedExecutionPaths)
                             {
-                                isLegit = true;
-                                break;
+                                if (path.StartsWith(trustedPath, StringComparison.OrdinalIgnoreCase))
+                                {
+                                    isLegit = true;
+                                    break;
+                                }
                             }
                         }
 
