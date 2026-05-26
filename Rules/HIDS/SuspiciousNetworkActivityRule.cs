@@ -82,8 +82,12 @@ namespace WinEDR_MVP.Rules.HIDS
             }
 
             // HIDS-N2: Port Scanning 
-            var distinctRemotePorts = connections.Select(c => c.RemoteEndPoint.Port).Distinct().Count();
-            if (distinctRemotePorts > 20) 
+            var distinctPortsPerIP = connections
+                .GroupBy(c => c.RemoteEndPoint.Address)
+                .Select(g => new { IP = g.Key, PortCount = g.Select(c => c.RemoteEndPoint.Port).Distinct().Count() })
+                .FirstOrDefault(x => x.PortCount > 20);
+
+            if (distinctPortsPerIP != null) 
             {
                 events.Add(new DetectionEvent
                 {
@@ -91,7 +95,7 @@ namespace WinEDR_MVP.Rules.HIDS
                     RuleName = "Potential Port Scanning Behavior",
                     Severity = AlertSeverity.Medium,
                     Type = AlertType.RECON,
-                    Description = $"Host is connected to {distinctRemotePorts} distinct remote ports.",
+                    Description = $"Host is connected to {distinctPortsPerIP.PortCount} distinct remote ports on {distinctPortsPerIP.IP}.",
                 });
             }
 

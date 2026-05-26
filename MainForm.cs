@@ -75,17 +75,14 @@ namespace WinEDR_MVP
             btnStop.Enabled = true;
             statusLabel.Text = "Status: Running...";
             statusLabel.ForeColor = Color.Green;
+            scanProgressBar.Visible = true;
 
             try
             {
-                await Task.Run(async () =>
+                await Task.Run(() =>
                 {
-                    while (!_cts.Token.IsCancellationRequested)
-                    {
-                        Console.WriteLine("Cycle"); // Debug
-                        _engine.RunCycle();
-                        await Task.Delay(5000, _cts.Token);
-                    }
+                    Console.WriteLine("Starting Single Scan Cycle"); // Debug
+                    _engine.RunCycle();
                 }, _cts.Token);
             }
             catch (OperationCanceledException)
@@ -102,6 +99,7 @@ namespace WinEDR_MVP
                 btnStop.Enabled = false;
                 statusLabel.Text = "Status: Stopped";
                 statusLabel.ForeColor = Color.Red;
+                scanProgressBar.Visible = false;
                 _cts = null;
             }
         }

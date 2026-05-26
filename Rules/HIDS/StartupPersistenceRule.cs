@@ -25,11 +25,14 @@ namespace WinEDR_MVP.Rules.HIDS
             {
                 try
                 {
-                    using (RegistryKey key = Registry.CurrentUser.OpenSubKey(keyPath))
+                    RegistryKey[] rootKeys = { Registry.CurrentUser, Registry.LocalMachine };
+                    foreach (var rootKey in rootKeys)
                     {
-                        if (key != null)
+                        using (RegistryKey key = rootKey.OpenSubKey(keyPath))
                         {
-                            foreach (var valueName in key.GetValueNames())
+                            if (key != null)
+                            {
+                                foreach (var valueName in key.GetValueNames())
                             {
                                 string value = key.GetValue(valueName)?.ToString();
                                 // MVP Heuristic: If it points to AppData or Temp, flag it.
@@ -49,8 +52,9 @@ namespace WinEDR_MVP.Rules.HIDS
                         }
                     }
                 }
-                catch {}
             }
+            catch {}
+        }
             return events;
         }
     }

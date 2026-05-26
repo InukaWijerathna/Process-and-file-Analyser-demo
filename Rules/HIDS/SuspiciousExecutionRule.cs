@@ -39,7 +39,8 @@ namespace WinEDR_MVP.Rules.HIDS
                         string expandedBadPath = Environment.ExpandEnvironmentVariables(badPath);
                         
                         // Check if path is within untrusted directory
-                        if (path.StartsWith(expandedBadPath, StringComparison.OrdinalIgnoreCase))
+                        string normalizedBadPath = expandedBadPath.EndsWith("\\") ? expandedBadPath : expandedBadPath + "\\";
+                        if (path.StartsWith(normalizedBadPath, StringComparison.OrdinalIgnoreCase))
                         {
                             string procName = proc.ProcessName.ToLower();
                             bool isScriptEngine = procName.Contains("powershell") || procName.Contains("cmd") || procName.Contains("wscript") || procName.Contains("cscript");
